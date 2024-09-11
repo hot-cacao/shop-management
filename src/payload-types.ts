@@ -12,7 +12,8 @@ export interface Config {
   };
   collections: {
     users: User;
-    media: Media;
+    products: Product;
+    orders: Order;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -49,6 +50,9 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  firstName: string;
+  lastName: string;
+  roles?: ('admin' | 'normie')[] | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -62,22 +66,32 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "products".
  */
-export interface Media {
+export interface Product {
   id: string;
-  alt: string;
+  productCode: string;
+  productName: string;
+  cost?: number | null;
+  price?: number | null;
+  stock?: number | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: string;
+  items: {
+    product: string | Product;
+    quantity: number;
+    price?: string | null;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
